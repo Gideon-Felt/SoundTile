@@ -38,19 +38,13 @@ class Tiling : TileService() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         // Check if the app has permission to modify DND
         if (!notificationManager.isNotificationPolicyAccessGranted) {
-            Handler(Looper.getMainLooper()).post {showPermissionRequestDialog()}
+            Handler(Looper.getMainLooper()).post {
+                showPermissionRequestDialog()
+            }
             return
         }
 
-        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-        when (audioManager.ringerMode) {
-            AudioManager.RINGER_MODE_NORMAL -> {
-                audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
-            }
-            else -> {
-                audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
-            }
-        }
+        startForegroundService(Intent(this, ToggleService::class.java))
     }
 
     private fun updateTile() {
