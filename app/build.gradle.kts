@@ -1,17 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.mohammadyasir.soundtile"
+    namespace = "com.gdfelt.soundtile"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.mohammadyasir.soundtile"
+        applicationId = "com.gdfelt.soundtile"
         minSdk = 35
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -30,12 +29,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
 }

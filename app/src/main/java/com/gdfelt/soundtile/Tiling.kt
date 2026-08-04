@@ -1,4 +1,4 @@
-package com.mohammadyasir.soundtile
+package com.gdfelt.soundtile
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -31,7 +31,7 @@ class Tiling : TileService() {
 
     override fun onStopListening() {
         super.onStopListening()
-        unregisterReceiver(receiver)
+        try { unregisterReceiver(receiver) } catch (_: IllegalArgumentException) { }
     }
 
     override fun onClick() {
