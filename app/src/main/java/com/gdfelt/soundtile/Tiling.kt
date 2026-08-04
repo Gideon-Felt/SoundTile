@@ -17,6 +17,12 @@ import android.service.quicksettings.TileService
 
 class Tiling : TileService() {
 
+    private val audioManager by lazy { getSystemService(AUDIO_SERVICE) as AudioManager }
+
+    private val notificationManager by lazy {
+        getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    }
+
     private val receiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             updateTile()
@@ -25,7 +31,10 @@ class Tiling : TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
-        registerReceiver(receiver, IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION))
+        registerReceiver(receiver, IntentFilter().apply {
+            addAction(AudioManager.RINGER_MODE_CHANGED_ACTION)
+            addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
+        })
         updateTile()
     }
 
@@ -35,7 +44,6 @@ class Tiling : TileService() {
     }
 
     override fun onClick() {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         // Check if the app has permission to modify DND
         if (!notificationManager.isNotificationPolicyAccessGranted) {
             Handler(Looper.getMainLooper()).post {
@@ -44,32 +52,53 @@ class Tiling : TileService() {
             return
         }
 
+        // Show the new state straight away; waiting for the system broadcast to come back
+        // reads as a lag on the tile. updateTile() corrects it if the change doesn't land.
+        render(SoundState.current(audioManager, notificationManager).next())
+
         startForegroundService(Intent(this, ToggleService::class.java))
     }
 
-    private fun updateTile() {
-        val tile = qsTile?: return
-        tile.subtitle = getString(R.string.app_name)
+    private fun updateTile() =
+        render(SoundState.current(audioManager, notificationManager))
 
-        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+    private fun render(state: SoundState) {
+        val tile = qsTile ?: return
 
-        when (audioManager.ringerMode) {
-            AudioManager.RINGER_MODE_NORMAL -> {
+        when (state) {
+            SoundState.NORMAL -> {
                 tile.state = STATE_ACTIVE
                 tile.label = getString(R.string.normal)
                 tile.icon = Icon.createWithResource(this, R.drawable.normal)
+                tile.subtitle = getString(R.string.app_name)
             }
 
-            AudioManager.RINGER_MODE_VIBRATE -> {
+            SoundState.VIBRATE -> {
                 tile.state = STATE_INACTIVE
                 tile.label = getString(R.string.vibrate)
                 tile.icon = Icon.createWithResource(this, R.drawable.vibrate)
+                tile.subtitle = getString(R.string.app_name)
             }
 
-            AudioManager.RINGER_MODE_SILENT -> {
+            SoundState.SILENT -> {
                 tile.state = STATE_INACTIVE
                 tile.label = getString(R.string.silent)
+                tile.icon = Icon.createWithResource(this, R.drawable.sound_off)
+                tile.subtitle = getString(R.string.app_name)
+            }
+
+            SoundState.PRIORITY -> {
+                tile.state = STATE_ACTIVE
+                tile.label = getString(R.string.priority)
                 tile.icon = Icon.createWithResource(this, R.drawable.dnd_on)
+                tile.subtitle = getString(R.string.priority_on)
+            }
+
+            SoundState.TOTAL_SILENCE -> {
+                tile.state = STATE_ACTIVE
+                tile.label = getString(R.string.total_silence)
+                tile.icon = Icon.createWithResource(this, R.drawable.total_silence)
+                tile.subtitle = getString(R.string.priority_off)
             }
         }
 
