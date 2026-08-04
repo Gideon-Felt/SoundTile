@@ -11,7 +11,7 @@ android {
         applicationId = "com.mohammadyasir.soundtile"
         minSdk = 35
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

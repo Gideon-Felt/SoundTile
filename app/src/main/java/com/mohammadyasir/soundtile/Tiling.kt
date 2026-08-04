@@ -31,7 +31,7 @@ class Tiling : TileService() {
 
     override fun onStopListening() {
         super.onStopListening()
-        unregisterReceiver(receiver)
+        try { unregisterReceiver(receiver) } catch (_: IllegalArgumentException) { }
     }
 
     override fun onClick() {
@@ -44,7 +44,15 @@ class Tiling : TileService() {
             return
         }
 
-        startForegroundService(Intent(this, ToggleService::class.java))
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        when (audioManager.ringerMode) {
+            AudioManager.RINGER_MODE_NORMAL -> {
+                audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
+            }
+            else -> {
+                audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
+            }
+        }
     }
 
     private fun updateTile() {
