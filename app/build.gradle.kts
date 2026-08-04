@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.mohammadyasir.soundtile"
+    namespace = "com.gdfelt.soundtile"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.mohammadyasir.soundtile"
+        applicationId = "com.gdfelt.soundtile"
         minSdk = 35
         targetSdk = 36
         versionCode = 2
