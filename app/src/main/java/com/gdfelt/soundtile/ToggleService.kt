@@ -22,10 +22,10 @@ class ToggleService : Service() {
         startForeground(NOTIFICATION_ID, createNotification())
 
         val audioManager = getSystemService(AudioManager::class.java)
-        audioManager.ringerMode = when (audioManager.ringerMode) {
-            AudioManager.RINGER_MODE_NORMAL -> AudioManager.RINGER_MODE_VIBRATE
-            else -> AudioManager.RINGER_MODE_NORMAL
-        }
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        SoundState.current(audioManager, notificationManager)
+            .next()
+            .applyTo(audioManager, notificationManager)
 
         stopSelf()
         return START_NOT_STICKY

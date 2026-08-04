@@ -6,6 +6,11 @@
     <string name="permission_required">DND Permission Required</string>
     <string name="permission_description">This app needs permission to change Do Not Disturb mode. Would you like to go to settings to grant this permission?</string>
     <string name="grant_permission">Grant Permission</string>
+    <string name="priority">Priority Only</string>
+    <string name="total_silence">Total Silence</string>
+    <!-- Kept short: the tile subtitle clips and marquees past ~16 characters. -->
+    <string name="priority_on">Priority on</string>
+    <string name="priority_off">Priority off</string>
     <string name="channel_name">Ringer mode toggle</string>
     <string name="toggling">Changing ringer mode…</string>
 </resources>
