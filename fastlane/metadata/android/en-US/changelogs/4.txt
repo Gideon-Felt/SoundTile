@@ -1,0 +1,3 @@
+Relicensed under the Apache License 2.0, matching the original SoundTile project.
+
+Build cleanup for F-Droid. No functional changes since 2.1.
