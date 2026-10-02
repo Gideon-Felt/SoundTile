@@ -1,0 +1,7 @@
+Fixed the tile on Android 17, where background audio hardening silently ignored ringer changes and the tile appeared to do nothing.
+
+Added two Do Not Disturb states. The tile now cycles Ringer, Vibrate, Priority Only and Total Silence.
+
+Note that Total Silence blocks alarms.
+
+The tile also updates immediately when tapped, and refreshes when Do Not Disturb is changed from elsewhere.
