@@ -51,6 +51,4 @@ The logic lives in three small files: `Tiling.kt` (the tile and its display), `T
 
 ## License
 
-This fork's contributions are released under the [MIT License](LICENSE).
-
-Note that the upstream project does not specify a license. If you intend to reuse this code, consider contacting the original author regarding the portions of the work that originate there.
+Licensed under the [Apache License 2.0](LICENSE), the same license as the [upstream project](https://github.com/hafizmdyasir/SoundTile). See [NOTICE](NOTICE) for attribution.

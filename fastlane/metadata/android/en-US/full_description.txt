@@ -1,0 +1,18 @@
+Sound Tile is a minimal Quick Settings tile for changing sound modes without digging through Settings.
+
+Tapping the tile cycles through four states:
+
+* Ringer
+* Vibrate
+* Priority Only
+* Total Silence
+
+The first two set the ringer mode. The last two engage Android's Do Not Disturb, so the system DND indicator appears and notifications are suppressed rather than merely silenced. Priority Only honours the exceptions you have configured in Settings; Total Silence blocks everything.
+
+Please note that Total Silence blocks alarms and timers as well, so avoid leaving the tile in that state overnight if you rely on an alarm.
+
+If the ringer is changed from elsewhere, the tile reflects it and the next tap returns to Ringer.
+
+The tile needs Do Not Disturb access to change modes. It is requested the first time you tap the tile, and nothing else is collected or requested. There is no analytics, no network access and no third-party dependencies.
+
+This is a fork of SoundTile by Mohammad Yasir, updated for Android 17 and extended with the Do Not Disturb states.
